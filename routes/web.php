@@ -26,6 +26,7 @@ Route::get('cart/delete/{id}', 'FrontendController@cart_delete')->name('cart.del
 Route::get('cart/incr/{id}/{quantity}', 'FrontendController@incr')->name('cart.incr');
 Route::get('cart/decr/{id}/{quantity}', 'FrontendController@decr')->name('cart.decr');
 Route::get('cart/checkout', 'FrontendController@checkout')->name('checkout');
+Route::post('cart/checkout', 'FrontendController@pay')->name('checkout');
 
 
 

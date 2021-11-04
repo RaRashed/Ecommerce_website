@@ -5,9 +5,12 @@ namespace App\Http\Controllers;
 use App\Product;
 use Cart;
 use Darryldecode\Cart\Cart as CartCart;
+use Session;
 use Validator;
 use Illuminate\Http\Request;
-
+use Stripe\Stripe;
+use Stripe\Charge;
+use Mail;
 class FrontendController extends Controller
 {
 
@@ -181,5 +184,30 @@ class FrontendController extends Controller
     public function checkout()
     {
         return view('frontend.checkout');
+    }
+
+    public function pay()
+    {
+        Stripe::setApiKey("sk_test_51JqeYMC4CQn9TaQHy9jOwHAed3XT0dmu11FpXCEn5IE685wqohVvlJM8QTcxH4FtLxe6NfofiiQ2tQ8y8dbrTg1d00hOMTr7FQ");
+        $token = request()->stripeToken;
+
+        $charge = Charge::create([
+
+            'amount' =>  Cart::getTotal() * 100,
+            'currency' => 'usd',
+            'description' => 'Buy books',
+            'source' =>request()->stripeToken
+
+        ]);
+
+        Session::flash('success','Purchase Successfull. Wait  For our Email');
+        Cart::destroy();
+
+        Mail::to(request()->stripeEmail)->send(new \App\Mail\PurchaseSuccessful);
+
+
+        return redirect('/');
+
+
     }
 }

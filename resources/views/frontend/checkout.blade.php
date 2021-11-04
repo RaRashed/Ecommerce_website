@@ -140,7 +140,7 @@
                             </td>
 
                             <td class="product-subtotal">
-                                <h5 class="total amount">{{ Cart::getTotal() }}</h5>
+                                <h5 class="total amount">{{ number_format( Cart::getTotal())}}</h5>
                             </td>
                         </tr>
 					</table>
@@ -162,13 +162,15 @@
 							</a>
 
 							<span style="float: right;">
-								<form action="/your-server-side-code" method="POST">
+								<form action="{{ route('checkout') }}" method="POST">
+
+                                    @csrf
 									  <script
 									    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-									    data-key="pk_test_6pRNASCoBOKtIshFeQd4XMUh"
-									    data-amount="999"
-									    data-name="Stripe.com"
-									    data-description="Widget"
+									    data-key="pk_test_51JqeYMC4CQn9TaQHBGVefJn0LMVkGsp60yw4MuIHaqeDeoG0eIYAuRniLQM1NVe54hNX51FGPmQSLVwIxCvDe0DP004Qq1gXFw"
+									    data-amount="{{ Cart::getTotal() * 100 }}"
+									    data-name="Ecommerce"
+									    data-description="Buy Books"
 									    data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
 									    data-locale="auto"
 									    data-zip-code="true">
