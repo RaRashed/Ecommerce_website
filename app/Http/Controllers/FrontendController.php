@@ -200,13 +200,11 @@ class FrontendController extends Controller
 
         ]);
 
-        Session::flash('success','Purchase Successfull. Wait  For our Email');
-        Cart::destroy();
+        Cart::clear();
 
         Mail::to(request()->stripeEmail)->send(new \App\Mail\PurchaseSuccessful);
 
-
-        return redirect('/');
+        return redirect('/')->with('status', 'Purchase Successfull. Wait  For our Email');
 
 
     }
